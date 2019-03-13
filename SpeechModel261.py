@@ -18,14 +18,15 @@ import random
 
 from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Input, Reshape, BatchNormalization # , Flatten
-from keras.layers import Lambda, TimeDistributed, Activation,Conv2D, MaxPooling2D #, Merge
+from keras.layers import Lambda, TimeDistributed, Activation,Conv2D, MaxPooling2D,GRU #, Merge
+from keras.layers.merge import add, concatenate
 from keras import backend as K
 from keras.optimizers import SGD, Adadelta, Adam
 
 from readdata24 import DataSpeech
 
 abspath = ''
-ModelName='251'
+ModelName='261'
 #NUM_GPU = 2
 
 class ModelSpeech(): # 语音模型类
@@ -69,47 +70,63 @@ class ModelSpeech(): # 语音模型类
 		
 		input_data = Input(name='the_input', shape=(self.AUDIO_LENGTH, self.AUDIO_FEATURE_LENGTH, 1))
 		
-		layer_h1 = Conv2D(32, (3,3), use_bias=False, activation='relu', padding='same', kernel_initializer='he_normal')(input_data) # 卷积层
-		layer_h1 = Dropout(0.05)(layer_h1)
-		layer_h2 = Conv2D(32, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h1) # 卷积层
-		layer_h3 = MaxPooling2D(pool_size=2, strides=None, padding="valid")(layer_h2) # 池化层
-		#layer_h3 = Dropout(0.2)(layer_h2) # 随机中断部分神经网络连接，防止过拟合
-		layer_h3 = Dropout(0.05)(layer_h3)
-		layer_h4 = Conv2D(64, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h3) # 卷积层
-		layer_h4 = Dropout(0.1)(layer_h4)
-		layer_h5 = Conv2D(64, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h4) # 卷积层
-		layer_h6 = MaxPooling2D(pool_size=2, strides=None, padding="valid")(layer_h5) # 池化层
+		layer_h = Conv2D(32, (3,3), use_bias=False, activation='relu', padding='same', kernel_initializer='he_normal')(input_data) # 卷积层
+		#layer_h = Dropout(0.05)(layer_h)
+		layer_h = Conv2D(32, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		layer_h = MaxPooling2D(pool_size=2, strides=None, padding="valid")(layer_h) # 池化层
 		
-		layer_h6 = Dropout(0.1)(layer_h6)
-		layer_h7 = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h6) # 卷积层
-		layer_h7 = Dropout(0.15)(layer_h7)
-		layer_h8 = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h7) # 卷积层
-		layer_h9 = MaxPooling2D(pool_size=2, strides=None, padding="valid")(layer_h8) # 池化层
+		#layer_h = Dropout(0.05)(layer_h) # 随机中断部分神经网络连接，防止过拟合
+		layer_h = Conv2D(64, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		#layer_h = Dropout(0.1)(layer_h)
+		layer_h = Conv2D(64, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		layer_h = MaxPooling2D(pool_size=2, strides=None, padding="valid")(layer_h) # 池化层
 		
-		layer_h9 = Dropout(0.15)(layer_h9)
-		layer_h10 = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h9) # 卷积层
-		layer_h10 = Dropout(0.2)(layer_h10)
-		layer_h11 = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h10) # 卷积层
-		layer_h12 = MaxPooling2D(pool_size=1, strides=None, padding="valid")(layer_h11) # 池化层
+		#layer_h = Dropout(0.1)(layer_h)
+		layer_h = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		#layer_h = Dropout(0.15)(layer_h)
+		layer_h = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		layer_h = MaxPooling2D(pool_size=2, strides=None, padding="valid")(layer_h) # 池化层
 		
-		layer_h12 = Dropout(0.2)(layer_h12)
-		layer_h13 = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h12) # 卷积层
-		layer_h13 = Dropout(0.2)(layer_h13)
-		layer_h14 = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h13) # 卷积层
-		layer_h15 = MaxPooling2D(pool_size=1, strides=None, padding="valid")(layer_h14) # 池化层
+		#layer_h = Dropout(0.15)(layer_h)
+		layer_h = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		#layer_h = Dropout(0.2)(layer_h)
+		layer_h = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		layer_h = MaxPooling2D(pool_size=1, strides=None, padding="valid")(layer_h) # 池化层
 		
-		#test=Model(inputs = input_data, outputs = layer_h12)
+		#layer_h = Dropout(0.2)(layer_h)
+		#layer_h = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		#layer_h = Dropout(0.2)(layer_h)
+		#layer_h = Conv2D(128, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h) # 卷积层
+		#layer_h = MaxPooling2D(pool_size=1, strides=None, padding="valid")(layer_h) # 池化层
+		
+		#test=Model(inputs = input_data, outputs = layer_h)
 		#test.summary()
 		
-		layer_h16 = Reshape((200, 3200))(layer_h15) #Reshape层
-		#layer_h5 = LSTM(256, activation='relu', use_bias=True, return_sequences=True)(layer_h4) # LSTM层
-		#layer_h6 = Dropout(0.2)(layer_h5) # 随机中断部分神经网络连接，防止过拟合
-		layer_h16 = Dropout(0.3)(layer_h16)
-		layer_h17 = Dense(128, activation="relu", use_bias=True, kernel_initializer='he_normal')(layer_h16) # 全连接层
-		layer_h17 = Dropout(0.3)(layer_h17)
-		layer_h18 = Dense(self.MS_OUTPUT_SIZE, use_bias=True, kernel_initializer='he_normal')(layer_h17) # 全连接层
+		layer_h = Reshape((200, 3200))(layer_h) #Reshape层
 		
-		y_pred = Activation('softmax', name='Activation0')(layer_h18)
+		#layer_h16 = Dropout(0.3)(layer_h16) # 随机中断部分神经网络连接，防止过拟合
+		layer_h = Dense(128, activation="relu", use_bias=True, kernel_initializer='he_normal')(layer_h) # 全连接层
+		
+		inner = layer_h
+		#layer_h5 = LSTM(256, activation='relu', use_bias=True, return_sequences=True)(layer_h4) # LSTM层
+		
+		rnn_size=128
+		gru_1 = GRU(rnn_size, return_sequences=True, kernel_initializer='he_normal', name='gru1')(inner)
+		gru_1b = GRU(rnn_size, return_sequences=True, go_backwards=True, kernel_initializer='he_normal', name='gru1_b')(inner)
+		gru1_merged = add([gru_1, gru_1b])
+		gru_2 = GRU(rnn_size, return_sequences=True, kernel_initializer='he_normal', name='gru2')(gru1_merged)
+		gru_2b = GRU(rnn_size, return_sequences=True, go_backwards=True, kernel_initializer='he_normal', name='gru2_b')(gru1_merged)
+		
+		gru2 = concatenate([gru_2, gru_2b])
+		
+		layer_h = gru2
+		#layer_h20 = Dropout(0.4)(gru2)
+		layer_h = Dense(128, activation="relu", use_bias=True, kernel_initializer='he_normal')(layer_h) # 全连接层
+		
+		#layer_h17 = Dropout(0.3)(layer_h17)
+		layer_h = Dense(self.MS_OUTPUT_SIZE, use_bias=True, kernel_initializer='he_normal')(layer_h) # 全连接层
+		
+		y_pred = Activation('softmax', name='Activation0')(layer_h)
 		model_data = Model(inputs = input_data, outputs = y_pred)
 		#model_data.summary()
 		
@@ -197,11 +214,8 @@ class ModelSpeech(): # 语音模型类
 		'''
 		保存模型参数
 		'''
-		self._model.save_weights(filename + comment + '.model')
+		self._model.save_weights(filename+comment+'.model')
 		self.base_model.save_weights(filename + comment + '.model.base')
-		# 需要安装 hdf5 模块
-		self._model.save(filename + comment + '.h5')
-		self.base_model.save(filename + comment + '.base.h5')
 		f = open('step'+ModelName+'.txt','w')
 		f.write(filename+comment)
 		f.close()
@@ -399,8 +413,8 @@ if(__name__=='__main__'):
 	
 	#import tensorflow as tf
 	#from keras.backend.tensorflow_backend import set_session
-	#os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-	#进行配置，使用95%的GPU
+	#os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+	#进行配置，使用70%的GPU
 	#config = tf.ConfigProto()
 	#config.gpu_options.per_process_gpu_memory_fraction = 0.95
 	#config.gpu_options.allow_growth=True   #不全部占满显存, 按需分配
@@ -429,8 +443,8 @@ if(__name__=='__main__'):
 	ms = ModelSpeech(datapath)
 	
 	
-	#ms.LoadModel(modelpath + 'm251/speech_model251_e_0_step_100000.model')
-	ms.TrainModel(datapath, epoch = 50, batch_size = 16, save_step = 500)
+	#ms.LoadModel(modelpath + 'm261/speech_model261_e_0_step_100000.model')
+	#ms.TrainModel(datapath, epoch = 50, batch_size = 16, save_step = 500)
 	
 	#t1=time.time()
 	#ms.TestModel(datapath, str_dataset='train', data_count = 128, out_report = True)

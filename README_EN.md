@@ -4,7 +4,7 @@
 
 **ReadMe Language** | [中文版](https://github.com/nl8590687/ASRT_SpeechRecognition/blob/master/README.md) | English |
 
-[View this project's wiki pages (Chinese)](https://github.com/nl8590687/ASRT_SpeechRecognition/wiki)
+[**View this project's wiki document (Chinese)**](https://github.com/nl8590687/ASRT_SpeechRecognition/wiki)
 
 If you have any questions in your works with this project, welcome to put up issues in this repo and I will response as soon as possible. 
 
@@ -65,6 +65,8 @@ ASRT API Server startup please execute:
 $ python3 asrserver.py
 ```
 
+Please note that after opening the API server, you need to use the client software corresponding to this ASRT project for voice recognition. For details, see the Wiki documentation [ASRT Client Demo](https://github.com/nl8590687/ASRT_SpeechRecognition/wiki/ClientDemo).
+
 If you want to train and use Model 251, make changes in the corresponding position of the `import SpeechModel` in the code files.
 
 If there is any problem during the execution of the program or during use, it can be promptly put forward in the issue, and I will reply as soon as possible.
@@ -94,16 +96,6 @@ The input is a Chinese pinyin sequence, and the output is the corresponding Chin
 At present, the best model can basically reach 80% of Pinyin correct rate on the test set. 
 
 However, as the current international and domestic teams can achieve 98%, the accuracy rate still needs to be further improved. 
-
-* At present, one solution that can continue to improve the accuracy rate is correcting data set labeling errors, especially the ST-CMDS error in the syllable file. There is a certain percentage of errors in the label. If you have see this and you have the will to help correct some of the data tagging mistakes by own ability, I will be very welcome. It can be corrected by submitting a Pull Request, and you will be on the list of contributors of this repo.
-
-Samples: `不是： bu4 shi4 -> bu2 shi4` `一个：yi1 ge4 -> yi2 ge4` `了解：le5 jie3 -> liao3 jie3`
-
-* Corrected part:
-
-ST-CMDS
-
-train:  20170001P00001A    20170001P00001I    20170001P00002A
 
 ## Python libraries that need importing
 
@@ -136,12 +128,20 @@ train:  20170001P00001A    20170001P00001I    20170001P00002A
   ST-CMDS-20170001_1-OS.tar.gz 
 [Download](<http://www.openslr.org/resources/38/ST-CMDS-20170001_1-OS.tar.gz>)
 
-* **AIShell-1 Open Source Dataset** (This project has not been used yet and it will be added later)
+* **AIShell-1 Open Source Dataset** 
 
   data_aishell.tgz
 [Download](<http://www.openslr.org/resources/33/data_aishell.tgz>)
 
-* **Primewords Chinese Corpus Set 1** (This project has not been used yet and it will be added later)
+Note：unzip this dataset
+
+```
+$ tar xzf data_aishell.tgz
+$ cd data_aishell/wav
+$ for tar in *.tar.gz;  do tar xvf $tar; done
+```
+
+* **Primewords Chinese Corpus Set 1** 
 
   primewords_md_2018_set1.tar.gz
 [Download](<http://www.openslr.org/resources/47/primewords_md_2018_set1.tar.gz>)
