@@ -25,8 +25,9 @@ def read_wav_data(filename):
 	num_sample_width=wav.getsampwidth() # 获取实例的比特宽度，即每一帧的字节数
 	str_data = wav.readframes(num_frame) # 读取全部的帧
 	wav.close() # 关闭流
-	wave_data = np.fromstring(str_data, dtype = np.short) # 将声音文件数据转换为数组矩阵形式
-	wave_data.shape = -1, num_channel # 按照声道数将数组整形，单声道时候是一列数组，双声道时候是两列的矩阵
+
+	wave_data = np.fromstring(str_data, dtype = np.short) # 将声音文件字符串数据转换为数组矩阵形式 ASCII码
+	wave_data.shape = -1, num_channel# 按照声道数将数组整形，单声道时候是一列数组，双声道时候是两列的矩阵
 	wave_data = wave_data.T # 将矩阵转置
 	#wave_data = wave_data 
 	return wave_data, framerate  
@@ -80,12 +81,13 @@ def GetFrequencyFeature2(wavsignal, fs):
 	wav_arr = np.array(wavsignal)
 	#wav_length = len(wavsignal[0])
 	wav_length = wav_arr.shape[1]
-	
+
+									##len(wavsignal[0])/(fs/1000)是读取的wav的总毫秒数，从0开始记，所以先减一帧
 	range0_end = int(len(wavsignal[0])/fs*1000 - time_window) // 10 # 计算循环终止的位置，也就是最终生成的窗数
 	data_input = np.zeros((range0_end, 200), dtype = np.float) # 用于存放最终的频率特征数据
 	data_line = np.zeros((1, 400), dtype = np.float)
 	for i in range(0, range0_end):
-		p_start = i * 160
+		p_start = i * 160    #400/25*10=160,即帧移10ms内的采样点数
 		p_end = p_start + 400
 		
 		data_line = wav_arr[0, p_start:p_end]
@@ -109,12 +111,14 @@ w = 0.54 - 0.46 * np.cos(2 * np.pi * (x) / (400 - 1) ) # 汉明窗
 def GetFrequencyFeature3(wavsignal, fs):
 	# wav波形 加时间窗以及时移10ms
 	time_window = 25 # 单位ms
-	window_length = fs / 1000 * time_window # 计算窗长度的公式，目前全部为400固定值
+	window_length = fs / 1000 * time_window # 计算窗长度的公式，目前全部为400固定值，窗长指在一个窗的时间里的采样点数
 	
 	wav_arr = np.array(wavsignal)
 	#wav_length = len(wavsignal[0])
 	wav_length = wav_arr.shape[1]
-	
+
+
+											# len(wavsignal)/(fs/1000)是读取的wav的总毫秒数，从0开始记，所以先减一帧
 	range0_end = int(len(wavsignal[0])/fs*1000 - time_window) // 10 # 计算循环终止的位置，也就是最终生成的窗数
 	data_input = np.zeros((range0_end, 200), dtype = np.float) # 用于存放最终的频率特征数据
 	data_line = np.zeros((1, 400), dtype = np.float)
@@ -134,7 +138,7 @@ def GetFrequencyFeature3(wavsignal, fs):
 		
 	#print(data_input.shape)
 	data_input = np.log(data_input + 1)
-	return data_input
+	return data_input     #shape=(帧数，200)
 
 def wav_scale(energy):
 	'''
@@ -188,8 +192,8 @@ def get_wav_list(filename):
 	for i in txt_lines:
 		if(i!=''):
 			txt_l=i.split(' ')
-			dic_filelist[txt_l[0]] = txt_l[1]
-			list_wavmark.append(txt_l[0])
+			dic_filelist[txt_l[0]] = txt_l[1]     # { wav文件标记 : wav文件名 }
+			list_wavmark.append(txt_l[0])		  # [ wav文件标记 ]
 	txt_obj.close()
 	return dic_filelist,list_wavmark
 	
@@ -206,8 +210,8 @@ def get_wav_symbol(filename):
 	for i in txt_lines:
 		if(i!=''):
 			txt_l=i.split(' ')
-			dic_symbol_list[txt_l[0]]=txt_l[1:]
-			list_symbolmark.append(txt_l[0])
+			dic_symbol_list[txt_l[0]]=txt_l[1:]     # {  标签名  :  标签内容（一句拼音） ，……}
+			list_symbolmark.append(txt_l[0])        # [ 标签名 ，……]
 	txt_obj.close()
 	return dic_symbol_list,list_symbolmark
 	

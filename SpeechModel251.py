@@ -24,7 +24,7 @@ from keras.optimizers import SGD, Adadelta, Adam
 
 from readdata24 import DataSpeech
 
-abspath = ''
+abspath = '' #绝对地址
 ModelName='251'
 #NUM_GPU = 2
 
@@ -34,13 +34,13 @@ class ModelSpeech(): # 语音模型类
 		初始化
 		默认输出的拼音的表示大小是1422，即1421个拼音+1个空白块
 		'''
-		MS_OUTPUT_SIZE = 1422
+		MS_OUTPUT_SIZE = 1424 #字典扩充1422 ->1424
 		self.MS_OUTPUT_SIZE = MS_OUTPUT_SIZE # 神经网络最终输出的每一个字符向量维度的大小
 		#self.BATCH_SIZE = BATCH_SIZE # 一次训练的batch
 		self.label_max_string_length = 64
 		self.AUDIO_LENGTH = 1600
 		self.AUDIO_FEATURE_LENGTH = 200
-		self._model, self.base_model = self.CreateModel() 
+		self._model, self.base_model = self.CreateModel() #return loss ，y_pred
 		
 		self.datapath = datapath
 		self.slash = ''
@@ -67,8 +67,11 @@ class ModelSpeech(): # 语音模型类
 		
 		'''
 		
-		input_data = Input(name='the_input', shape=(self.AUDIO_LENGTH, self.AUDIO_FEATURE_LENGTH, 1))
-		
+		input_data = Input(name='the_input', shape=(self.AUDIO_LENGTH, self.AUDIO_FEATURE_LENGTH, 1))#input.shape=（1600,200,1）
+
+
+		                               								#he_normal,均值为0，方差为sqrt(2 / fan_in)的正态分布初始化
+																	#fan_in是权重张量中输入单位的个数
 		layer_h1 = Conv2D(32, (3,3), use_bias=False, activation='relu', padding='same', kernel_initializer='he_normal')(input_data) # 卷积层
 		layer_h1 = Dropout(0.05)(layer_h1)
 		layer_h2 = Conv2D(32, (3,3), use_bias=True, activation='relu', padding='same', kernel_initializer='he_normal')(layer_h1) # 卷积层
@@ -109,21 +112,21 @@ class ModelSpeech(): # 语音模型类
 		layer_h17 = Dropout(0.3)(layer_h17)
 		layer_h18 = Dense(self.MS_OUTPUT_SIZE, use_bias=True, kernel_initializer='he_normal')(layer_h17) # 全连接层
 		
-		y_pred = Activation('softmax', name='Activation0')(layer_h18)
+		y_pred = Activation('softmax', name='Activation0')(layer_h18)  #activation应用激活函数输入与输出shape相同
 		model_data = Model(inputs = input_data, outputs = y_pred)
 		#model_data.summary()
 		
 		labels = Input(name='the_labels', shape=[self.label_max_string_length], dtype='float32')
 		input_length = Input(name='input_length', shape=[1], dtype='int64')
 		label_length = Input(name='label_length', shape=[1], dtype='int64')
+
 		# Keras doesn't currently support loss funcs with extra parameters
 		# so CTC loss is implemented in a lambda layer
-		
 		#layer_out = Lambda(ctc_lambda_func,output_shape=(self.MS_OUTPUT_SIZE, ), name='ctc')([y_pred, labels, input_length, label_length])#(layer_h6) # CTC
 		loss_out = Lambda(self.ctc_lambda_func, output_shape=(1,), name='ctc')([y_pred, labels, input_length, label_length])
 		
 		
-		
+		'''loss封装成一层作为最后的输出outputs'''
 		model = Model(inputs=[input_data, labels, input_length, label_length], outputs=loss_out)
 		
 		model.summary()
@@ -133,6 +136,7 @@ class ModelSpeech(): # 语音模型类
 		#opt = Adadelta(lr = 0.01, rho = 0.95, epsilon = 1e-06)
 		opt = Adam(lr = 0.001, beta_1 = 0.9, beta_2 = 0.999, decay = 0.0, epsilon = 10e-8)
 		#model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer=sgd)
+		'''compile的时候，将loss设置为y_pred（因为模型的输出就是loss，所以y_pred就是loss），无视y_true，训练的时候，y_true随便扔一个符合形状的数组进去就行了。'''
 		model.compile(loss={'ctc': lambda y_true, y_pred: y_pred}, optimizer = opt)
 		
 		
@@ -141,7 +145,8 @@ class ModelSpeech(): # 语音模型类
 		
 		#print('[*提示] 创建模型成功，模型编译成功')
 		print('[*Info] Create Model Successful, Compiles Model Successful. ')
-		return model, model_data
+
+		return model, model_data#model输出loss，model_data输出y_pred
 		
 	def ctc_lambda_func(self, args):
 		y_pred, labels, input_length, label_length = args
@@ -163,9 +168,9 @@ class ModelSpeech(): # 语音模型类
 		'''
 		data=DataSpeech(datapath, 'train')
 		
-		num_data = data.GetDataNum() # 获取数据的数量
+		num_data = data.GetDataNum() # 获取数据的数量  返回wav文件数
 		
-		yielddatas = data.data_genetator(batch_size, self.AUDIO_LENGTH)
+		yielddatas = data.data_genetator(batch_size, self.AUDIO_LENGTH)  #返回 [X(wav数据), y(pny标签), input_length, label_length ], labels
 		
 		for epoch in range(epoch): # 迭代轮数
 			print('[running] train epoch %d .' % epoch)
@@ -190,8 +195,8 @@ class ModelSpeech(): # 语音模型类
 		'''
 		加载模型参数
 		'''
-		self._model.load_weights(filename)
-		self.base_model.load_weights(filename + '.base')
+		self._model.load_weights(filename)				 #model返回 loss
+		self.base_model.load_weights(filename + '.base') #base_model返回 y_pred
 
 	def SaveModel(self,filename = abspath + 'model_speech/m'+ModelName+'/speech_model'+ModelName,comment=''):
 		'''
@@ -208,6 +213,9 @@ class ModelSpeech(): # 语音模型类
 
 	def TestModel(self, datapath='', str_dataset='dev', data_count = 32, out_report = False, show_ratio = True, io_step_print = 10, io_step_file = 10):
 		'''
+
+		data_count:  用于验证的wav文件的数量
+
 		测试检验模型效果
 		
 		io_step_print
@@ -219,7 +227,7 @@ class ModelSpeech(): # 语音模型类
 		'''
 		data=DataSpeech(self.datapath, str_dataset)
 		#data.LoadDataList(str_dataset) 
-		num_data = data.GetDataNum() # 获取数据的数量
+		num_data = data.GetDataNum() # 获取数据的数量   返回wav文件数
 		if(data_count <= 0 or data_count > num_data): # 当data_count为小于等于0或者大于测试数据量的值时，则使用全部数据来测试
 			data_count = num_data
 		
@@ -245,12 +253,13 @@ class ModelSpeech(): # 语音模型类
 					num_bias += 1
 					data_input, data_labels = data.GetData((ran_num + i + num_bias) % num_data)  # 从随机数开始连续向后取一定数量数据
 				# 数据格式出错处理 结束
-				
-				pre = self.Predict(data_input, data_input.shape[0] // 8)
+
+												#通过最大池化后输入的数据维度减少为1/8
+				pre = self.Predict(data_input, data_input.shape[0] // 8)   #Predict返回ctc解码id序列
 				
 				words_n = data_labels.shape[0] # 获取每个句子的字数
-				words_num += words_n # 把句子的总字数加上
-				edit_distance = GetEditDistance(data_labels, pre) # 获取编辑距离
+				words_num += words_n # 把句子的总字数加上  统计所有验证数据的总pny数
+				edit_distance = GetEditDistance(data_labels, pre) # 获取编辑距离,  data_labels和pre均是pny的id列表
 				if(edit_distance <= words_n): # 当编辑距离小于等于句子字数时
 					word_error_num += edit_distance # 使用编辑距离作为错误字数
 				else: # 否则肯定是增加了一堆乱七八糟的奇奇怪怪的字
@@ -258,14 +267,14 @@ class ModelSpeech(): # 语音模型类
 				
 				if((i % io_step_print == 0 or i == data_count - 1) and show_ratio == True):
 					#print('测试进度：',i,'/',data_count)
-					print('Test Count: ',i,'/',data_count)
+					print('Test Count: ',i,'/',data_count)  #当前验证的wav文件编号 / wav验证文件总数
 				
 				
 				if(out_report == True):
 					if(i % io_step_file == 0 or i == data_count - 1):
 						txt_obj.write(txt)
 						txt = ''
-					
+
 					txt += str(i) + '\n'
 					txt += 'True:\t' + str(data_labels) + '\n'
 					txt += 'Pred:\t' + str(pre) + '\n'
@@ -301,7 +310,7 @@ class ModelSpeech(): # 语音模型类
 			x_in[i,0:len(data_input)] = data_input
 		
 		
-		base_pred = self.base_model.predict(x = x_in)
+		base_pred = self.base_model.predict(x = x_in)  #base_model返回  y_pred
 		
 		#print('base_pred:\n', base_pred)
 		
@@ -318,13 +327,14 @@ class ModelSpeech(): # 语音模型类
 		
 		base_pred =base_pred[:, :, :]
 		#base_pred =base_pred[:, 2:, :]
-		
+
+		'''ctc_decode()返回一个二元组，第一项是一个一元素列表,其中包含了解码序列;第二项是(top_paths, )的张量，包含每个解码序列的log概率'''
 		r = K.ctc_decode(base_pred, in_len, greedy = True, beam_width=100, top_paths=1)
 		
 		#print('r', r)
 		
 		
-		r1 = K.get_value(r[0][0])
+		r1 = K.get_value(r[0][0])  #get_value 返回一个变量的值，返回数组类型
 		#print('r1', r1)
 		
 		
@@ -348,31 +358,31 @@ class ModelSpeech(): # 语音模型类
 		# 获取输入特征
 		#data_input = GetMfccFeature(wavsignal, fs)
 		#t0=time.time()
-		data_input = GetFrequencyFeature3(wavsignal, fs)
+		data_input = GetFrequencyFeature3(wavsignal, fs)  #返回信号时频图
 		#t1=time.time()
 		#print('time cost:',t1-t0)
 		
-		input_length = len(data_input)
-		input_length = input_length // 8
+		input_length = len(data_input)   #总帧数
+		input_length = input_length // 8 #通过神经网络后的总帧数
 		
 		data_input = np.array(data_input, dtype = np.float)
 		#print(data_input,data_input.shape)
 		data_input = data_input.reshape(data_input.shape[0],data_input.shape[1],1)
 		#t2=time.time()
-		r1 = self.Predict(data_input, input_length)
+		r1 = self.Predict(data_input, input_length) #Predict返回ctc解码后的id列表
 		#t3=time.time()
 		#print('time cost:',t3-t2)
-		list_symbol_dic = GetSymbolList(self.datapath) # 获取拼音列表
+		list_symbol_dic = GetSymbolList(self.datapath) # 获取包含所有pny的列表，pny字典
 		
 		
 		r_str=[]
 		for i in r1:
-			r_str.append(list_symbol_dic[i])
+			r_str.append(list_symbol_dic[i]) #r1是id序列  list_symbol_dic是所有pny组成的列表
 		
 		return r_str
 		pass
 		
-	def RecognizeSpeech_FromFile(self, filename):
+	def RecognizeSpeech_FromFile(self, filename):   #voice2pny
 		'''
 		最终做语音识别用的函数，识别指定文件名的语音
 		'''
