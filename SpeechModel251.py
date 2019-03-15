@@ -34,7 +34,7 @@ class ModelSpeech(): # 语音模型类
 		初始化
 		默认输出的拼音的表示大小是1422，即1421个拼音+1个空白块
 		'''
-		MS_OUTPUT_SIZE = 1424 #字典扩充1422 ->1424
+		MS_OUTPUT_SIZE = 1422 #字典扩充1422 ->1424
 		self.MS_OUTPUT_SIZE = MS_OUTPUT_SIZE # 神经网络最终输出的每一个字符向量维度的大小
 		#self.BATCH_SIZE = BATCH_SIZE # 一次训练的batch
 		self.label_max_string_length = 64
@@ -67,7 +67,7 @@ class ModelSpeech(): # 语音模型类
 		
 		'''
 		
-		input_data = Input(name='the_input', shape=(self.AUDIO_LENGTH, self.AUDIO_FEATURE_LENGTH, 1))#input.shape=（1600,200,1）
+		input_data = Input(name='the_input', shape=(self.AUDIO_LENGTH, self.AUDIO_FEATURE_LENGTH, 1))#input.shape=（小于1600,200,1）
 
 
 		                               								#he_normal,均值为0，方差为sqrt(2 / fan_in)的正态分布初始化
@@ -197,6 +197,7 @@ class ModelSpeech(): # 语音模型类
 		'''
 		self._model.load_weights(filename)				 #model返回 loss
 		self.base_model.load_weights(filename + '.base') #base_model返回 y_pred
+		print('Model loaded.')
 
 	def SaveModel(self,filename = abspath + 'model_speech/m'+ModelName+'/speech_model'+ModelName,comment=''):
 		'''
@@ -213,10 +214,9 @@ class ModelSpeech(): # 语音模型类
 
 	def TestModel(self, datapath='', str_dataset='dev', data_count = 32, out_report = False, show_ratio = True, io_step_print = 10, io_step_file = 10):
 		'''
+		测试检验模型效果
 
 		data_count:  用于验证的wav文件的数量
-
-		测试检验模型效果
 		
 		io_step_print
 			为了减少测试时标准输出的io开销，可以通过调整这个参数来实现
@@ -227,8 +227,8 @@ class ModelSpeech(): # 语音模型类
 		'''
 		data=DataSpeech(self.datapath, str_dataset)
 		#data.LoadDataList(str_dataset) 
-		num_data = data.GetDataNum() # 获取数据的数量   返回wav文件数
-		if(data_count <= 0 or data_count > num_data): # 当data_count为小于等于0或者大于测试数据量的值时，则使用全部数据来测试
+		num_data = data.GetDataNum() # 获取数据的数量   返回wav文件总数
+		if(data_count <= 0 or data_count > num_data): # 当设置的data_count小于等于0或者大于测试数据量的值时，则使用全部测试数据来测试
 			data_count = num_data
 		
 		try:
@@ -242,23 +242,24 @@ class ModelSpeech(): # 语音模型类
 				txt_obj = open('Test_Report_' + str_dataset + '_' + nowtime + '.txt', 'w', encoding='UTF-8') # 打开文件并读入
 			
 			txt = '测试报告\n模型编号 ' + ModelName + '\n\n'
-			for i in range(data_count):
-				data_input, data_labels = data.GetData((ran_num + i) % num_data)  # 从随机数开始连续向后取一定数量数据
+
+			for i in range(data_count):  #遍历data_count数量个句子来测试
+				data_input, data_labels = data.GetData((ran_num + i) % num_data)  # 从随机数开始连续向后取一定数量数据 return 声谱图数组和pny标签数组
 				
 				# 数据格式出错处理 开始
-				# 当输入的wav文件长度过长时自动跳过该文件，转而使用下一个wav文件来运行
+				# 当输入的wav文件长度过长时自动跳过该文件，转而使用下一个wav文件来运行，while循环，直到取到一个合适的wav文件
 				num_bias = 0
-				while(data_input.shape[0] > self.AUDIO_LENGTH):
+				while(data_input.shape[0] > self.AUDIO_LENGTH): #data_input.shape[0]是wav文件总帧数，AUDIO_LENGTH是网络输入长度
 					print('*[Error]','wave data lenghth of num',(ran_num + i) % num_data, 'is too long.','\n A Exception raise when test Speech Model.')
 					num_bias += 1
 					data_input, data_labels = data.GetData((ran_num + i + num_bias) % num_data)  # 从随机数开始连续向后取一定数量数据
 				# 数据格式出错处理 结束
 
 												#通过最大池化后输入的数据维度减少为1/8
-				pre = self.Predict(data_input, data_input.shape[0] // 8)   #Predict返回ctc解码id序列
+				pre = self.Predict(data_input, data_input.shape[0] // 8)   #Predict返回ctc解码的pny_id序列
 				
-				words_n = data_labels.shape[0] # 获取每个句子的字数
-				words_num += words_n # 把句子的总字数加上  统计所有验证数据的总pny数
+				words_n = data_labels.shape[0] # 获取每句pny标签的字数
+				words_num += words_n # 把句子的总字数加上  统计data_count个验证数据的总pny数
 				edit_distance = GetEditDistance(data_labels, pre) # 获取编辑距离,  data_labels和pre均是pny的id列表
 				if(edit_distance <= words_n): # 当编辑距离小于等于句子字数时
 					word_error_num += edit_distance # 使用编辑距离作为错误字数
@@ -302,12 +303,12 @@ class ModelSpeech(): # 语音模型类
 		batch_size = 1 
 		in_len = np.zeros((batch_size),dtype = np.int32)
 		
-		in_len[0] = input_len
+		in_len[0] = input_len  #input_len ctc解码输入的帧个数
 		
-		x_in = np.zeros((batch_size, 1600, self.AUDIO_FEATURE_LENGTH, 1), dtype=np.float)
+		x_in = np.zeros((batch_size, 1600, self.AUDIO_FEATURE_LENGTH, 1), dtype=np.float)  #padding
 		
 		for i in range(batch_size):
-			x_in[i,0:len(data_input)] = data_input
+			x_in[i,0:len(data_input)] = data_input   #data_input is 3d , x_in is 4d ，x_in[0] = batch_id
 		
 		
 		base_pred = self.base_model.predict(x = x_in)  #base_model返回  y_pred
@@ -426,7 +427,7 @@ if(__name__=='__main__'):
 	
 	system_type = plat.system() # 由于不同的系统的文件路径表示不一样，需要进行判断
 	if(system_type == 'Windows'):
-		datapath = 'E:\\语音数据集'
+		datapath = 'G:\\ASRT_SpeechRecognition\\dataset'
 		modelpath = modelpath + '\\'
 	elif(system_type == 'Linux'):
 		datapath =  abspath + 'dataset'

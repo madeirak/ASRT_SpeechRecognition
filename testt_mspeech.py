@@ -33,7 +33,7 @@ if(not os.path.exists(modelpath)): # 判断保存模型的目录是否存在
 system_type = plat.system() # 由于不同的系统的文件路径表示不一样，需要进行判断
 if(system_type == 'Windows'):
 	#datapath = 'E:\\语音数据集'
-	datapath = 'G:\\yinpin_data'
+	datapath = 'G:\\ASRT_SpeechRecognition\\dataset'
 	modelpath = modelpath + '\\'
 elif(system_type == 'Linux'):
 	datapath = 'dataset'
@@ -45,9 +45,10 @@ else:
 
 ms = ModelSpeech(datapath)
 
-ms.LoadModel(modelpath + 'm251/speech_model251_e_0_step_42500.model')
+#ms.LoadModel(modelpath + 'm251/speech_model251_e_0_step_42500.model')
+ms.LoadModel(modelpath + 'speech_model251_e_0_step_12000.model')
 
-ms.TestModel(datapath, str_dataset='test', data_count = 128, out_report = True)
+ms.TestModel(datapath, str_dataset='test', data_count = 128, out_report = True) #data_count用来测试的wav文件总数
 
 #r = ms.RecognizeSpeech_FromFile('E:\\语音数据集\\ST-CMDS-20170001_1-OS\\20170001P00241I0053.wav')
 #r = ms.RecognizeSpeech_FromFile('E:\\语音数据集\\ST-CMDS-20170001_1-OS\\20170001P00020I0087.wav')

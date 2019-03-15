@@ -135,9 +135,9 @@ def GetFrequencyFeature3(wavsignal, fs):
 		
 		
 		data_input[i]=data_line[0:200] # 设置为400除以2的值（即200）是取一半数据，因为是对称的
-		
-	#print(data_input.shape)
-	data_input = np.log(data_input + 1)
+
+	print(data_input.shape)
+
 	return data_input     #shape=(帧数，200)
 
 def wav_scale(energy):
@@ -192,8 +192,8 @@ def get_wav_list(filename):
 	for i in txt_lines:
 		if(i!=''):
 			txt_l=i.split(' ')
-			dic_filelist[txt_l[0]] = txt_l[1]     # { wav文件标记 : wav文件名 }
-			list_wavmark.append(txt_l[0])		  # [ wav文件标记 ]
+			dic_filelist[txt_l[0]] = txt_l[1]     # { wav文件名 : wav文件路径 }
+			list_wavmark.append(txt_l[0])		  # [ wav文件名 ]
 	txt_obj.close()
 	return dic_filelist,list_wavmark
 	
@@ -210,8 +210,8 @@ def get_wav_symbol(filename):
 	for i in txt_lines:
 		if(i!=''):
 			txt_l=i.split(' ')
-			dic_symbol_list[txt_l[0]]=txt_l[1:]     # {  标签名  :  标签内容（一句拼音） ，……}
-			list_symbolmark.append(txt_l[0])        # [ 标签名 ，……]
+			dic_symbol_list[txt_l[0]]=txt_l[1:]     # { wav文件名  :  pny标签内容（一句拼音） ，……}
+			list_symbolmark.append(txt_l[0])        # [ wav文件名 ，……]
 	txt_obj.close()
 	return dic_symbol_list,list_symbolmark
 	

@@ -42,9 +42,9 @@ class DataSpeech():
 		
 		self.dic_wavlist_thchs30 = {}
 		self.dic_symbollist_thchs30 = {}
-		self.dic_wavlist_stcmds = {}
-		self.dic_symbollist_stcmds = {}
-		
+		#self.dic_wavlist_stcmds = {}
+		#self.dic_symbollist_stcmds = {}
+
 		self.SymbolNum = 0 # 记录拼音符号数量
 		self.list_symbol = self.GetSymbolList() # list_symbol就是全部拼音符号的列表
 		self.list_wavnum=[] # wav文件标记列表
@@ -88,13 +88,13 @@ class DataSpeech():
 			filename_symbollist = ''
 
 		# 读取数据列表，wav文件列表和其对应的符号列表
-		self.dic_wavlist_thchs30,self.list_wavnum_thchs30 = get_wav_list(self.datapath + filename_wavlist_thchs30)
-		self.dic_wavlist_stcmds,self.list_wavnum_stcmds = get_wav_list(self.datapath + filename_wavlist_stcmds)
+		self.dic_wavlist_thchs30,self.list_wavnum_thchs30 = get_wav_list(self.datapath + filename_wavlist_thchs30) #return { wav文件名 : wav文件路径 },[ wav文件名 ]
+		#self.dic_wavlist_stcmds,self.list_wavnum_stcmds = get_wav_list(self.datapath + filename_wavlist_stcmds)
 		
-		self.dic_symbollist_thchs30,self.list_symbolnum_thchs30 = get_wav_symbol(self.datapath + filename_symbollist_thchs30)
-		self.dic_symbollist_stcmds,self.list_symbolnum_stcmds = get_wav_symbol(self.datapath + filename_symbollist_stcmds)
+		self.dic_symbollist_thchs30,self.list_symbolnum_thchs30 = get_wav_symbol(self.datapath + filename_symbollist_thchs30) #return{ wav文件名  :  pny标签内容（一句拼音） ，……}，[ wav文件名 ，……]
+		#self.dic_symbollist_stcmds,self.list_symbolnum_stcmds = get_wav_symbol(self.datapath + filename_symbollist_stcmds)
 
-		self.DataNum = self.GetDataNum()
+		self.DataNum = self.GetDataNum()  #DataNum wav文件总数
 	
 	def GetDataNum(self):
 		'''
@@ -103,10 +103,13 @@ class DataSpeech():
 		'''
 		num_wavlist_thchs30 = len(self.dic_wavlist_thchs30)
 		num_symbollist_thchs30 = len(self.dic_symbollist_thchs30)
-		num_wavlist_stcmds = len(self.dic_wavlist_stcmds)
-		num_symbollist_stcmds = len(self.dic_symbollist_stcmds)
-		if(num_wavlist_thchs30 == num_symbollist_thchs30 and num_wavlist_stcmds == num_symbollist_stcmds):
-			DataNum = num_wavlist_thchs30 + num_wavlist_stcmds
+		#num_wavlist_stcmds = len(self.dic_wavlist_stcmds)
+		#num_symbollist_stcmds = len(self.dic_symbollist_stcmds)
+
+		if (num_wavlist_thchs30 == num_symbollist_thchs30):
+			DataNum = num_wavlist_thchs30
+		#if(num_wavlist_thchs30 == num_symbollist_thchs30 and num_wavlist_stcmds == num_symbollist_stcmds):
+		#	DataNum = num_wavlist_thchs30 + num_wavlist_stcmds
 		else:
 			DataNum = -1
 		
@@ -115,7 +118,7 @@ class DataSpeech():
 		
 	def GetData(self,n_start,n_amount=1):
 		'''
-		读取数据，返回神经网络输入值和输出值矩阵(可直接用于神经网络训练的那种)
+		读取一个wav文件数据，返回神经网络输入值和输出值矩阵(可直接用于神经网络训练的那种)
 		参数：
 			n_start：从编号为n_start数据开始选取数据
 			n_amount：选取的数据数量，默认为1，即一次一个wav文件
@@ -127,17 +130,30 @@ class DataSpeech():
 			bili = 11
 			
 		# 读取一个文件
+		if (n_start % bili == 0):
+			filename = self.dic_wavlist_thchs30[self.list_wavnum_thchs30[n_start // bili]]  # 取list_wavnum_thchs30中wav文件名取索引dic_wavlist_thchs30中文件路径
+
+			list_symbol = self.dic_symbollist_thchs30[self.list_symbolnum_thchs30[n_start // bili]] #取wav文件名索引pny标签列表
+
+		else:
+			n = n_start // bili * (bili - 1)
+			yushu = n_start % bili
+			length = len(self.list_wavnum_thchs30)
+			filename = self.dic_wavlist_thchs30[self.list_wavnum_thchs30[(n + yushu - 1) % length]]
+			list_symbol = self.dic_symbollist_thchs30[self.list_symbolnum_thchs30[(n + yushu - 1) % length]]  # 一个文件的pny，即一句pny
+
+			'''
 		if(n_start % bili == 0):
-			filename = self.dic_wavlist_thchs30[self.list_wavnum_thchs30[n_start // bili]]  #list_wavnum_thchs30是元素为wav文件标记的列表 num=number
-																							#传入字典dic_wavlist_thchs30中索引对应wav文件
-			list_symbol=self.dic_symbollist_thchs30[self.list_symbolnum_thchs30[n_start // bili]]
+			filename = self.dic_wavlist_thchs30[self.list_wavnum_thchs30[n_start // bili]]  # 取list_wavnum_thchs30中wav文件名取索引dic_wavlist_thchs30中文件路径
+																							
+			list_symbol=self.dic_symbollist_thchs30[self.list_symbolnum_thchs30[n_start // bili]]  #取wav文件名索引pny标签列表
 		else:
 			n = n_start // bili * (bili - 1)
 			yushu = n_start % bili
 			length=len(self.list_wavnum_stcmds)
 			filename = self.dic_wavlist_stcmds[self.list_wavnum_stcmds[(n + yushu - 1)%length]]
 			list_symbol=self.dic_symbollist_stcmds[self.list_symbolnum_stcmds[(n + yushu - 1)%length]]  #一个文件的pny，即一句pny
-		
+			'''
 		if('Windows' == plat.system()):
 			filename = filename.replace('/','\\') # windows系统下需要执行这一行，对文件路径做特别处理
 		
@@ -146,21 +162,21 @@ class DataSpeech():
 
 
 		# 获取输出特征
-		feat_out=[]
+		feat_out=[]		#存储pny标签的list_symbol数字索引
 		#print("数据编号",n_start,filename)
-		for i in list_symbol:  #每个i是一句中的一个pny
+		for i in list_symbol:  #list_symbol是一句pny标签
 			if(''!=i):
-				n=self.SymbolToNum(i) #一句pny转换为pny在句中索引
+				n=self.SymbolToNum(i) #将该pny转换为其在list_symbol中索引
 				#v=self.NumToVector(n)
 				#feat_out.append(v)
 				feat_out.append(n)
 		#print('feat_out:',feat_out)
 		
-		# 获取输入特征（信号时频图）
+		# 获取输入特征（信号声谱图特征）
 		data_input = GetFrequencyFeature3(wavsignal,fs)
 
 		#data_input = np.array(data_input)
-		data_input = data_input.reshape(data_input.shape[0],data_input.shape[1],1)
+		data_input = data_input.reshape(data_input.shape[0],data_input.shape[1],1) #intput.shape=(总帧数，200) -> (总帧数，200，1)
 		#arr_zero = np.zeros((1, 39), dtype=np.int16) #一个全是0的行向量
 		
 		#while(len(data_input)<1600): #长度不够时补全到1600

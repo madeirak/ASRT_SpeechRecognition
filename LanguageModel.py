@@ -246,6 +246,9 @@ if(__name__=='__main__'):
 	#str_pinyin = ['jin1', 'tian1', 'shi4', 'xing1', 'qi1', 'san1']
 	#str_pinyin = ['ni3', 'hao3','a1']
 	#str_pinyin = ['wo3','dui4','shi4','mei2','cuo4','ni3','hao3']
+
+	#str_pinyin = ['da4','jia1','hao3','wo3','shi4','zhao4','hao4','ran2']
+
 	#str_pinyin = ['wo3','dui4','shi4','tian1','mei2','na5','li3','hai4']
 	#str_pinyin = ['ba3','zhe4','xie1','zuo4','wan2','wo3','jiu4','qu4','shui4','jiao4']
 	#str_pinyin = ['wo3','qu4','a4','mei2','shi4','er2','la1']
