@@ -268,7 +268,7 @@ class ModelSpeech(): # 语音模型类
 				
 				if((i % io_step_print == 0 or i == data_count - 1) and show_ratio == True):
 					#print('测试进度：',i,'/',data_count)
-					print('Test Count: ',i,'/',data_count)  #当前验证的wav文件编号 / wav验证文件总数
+					print('Test Count: ',i,'/',data_count)  #当前验证的wav文件编号 / wav验证文件总个数
 				
 				
 				if(out_report == True):

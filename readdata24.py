@@ -217,14 +217,15 @@ class DataSpeech():
 			
 			for i in range(batch_size):   #遍历每一句
 				ran_num = random.randint(0,self.DataNum - 1) # 获取一个随机数
-				data_input, data_labels = self.GetData(ran_num)  # 通过随机数取一个数据  Getdata返回神经网络的输入时频图矩阵，输出pny矩阵
+				data_input, data_labels = self.GetData(ran_num)  #Getdata返回神经网络的输入时频图矩阵，输出pny矩阵，data_input.shape(总帧数，200,1)
 				#data_input, data_labels = self.GetData((ran_num + i) % self.DataNum)  # 从随机数开始连续向后取一定数量数据
-				
+
+
 				input_length.append(data_input.shape[0] // 8 + data_input.shape[0] % 8)#？？？
 				#print(data_input, data_labels)
 				#print('data_input长度:',len(data_input))
 				
-				X[i,0:len(data_input)] = data_input   #data_input是时频图矩阵
+				X[i,0:len(data_input)] = data_input   #padding，data_input是时频图矩阵
 				#print('data_labels长度:',len(data_labels))
 				#print(data_labels)
 				y[i,0:len(data_labels)] = data_labels
@@ -239,7 +240,8 @@ class DataSpeech():
 			#print('input_length:\n',input_length)
 			#X=X.reshape(batch_size, audio_length, 200, 1)
 			#print(X)
-			yield [X, y, input_length, label_length ], labels   #labels.shape = (batch_size,1)的全0数组
+			yield [X, y, input_length, label_length ], labels   #input_length,label_length分别是
+																#labels.shape = (batch_size,1)的全0数组
 																#X.shape = (batch_size, audio_length, 200, 1)储存wav数据
 																#y.shape = (batch_size, 64) 储存一句pny标签
 		pass#占位语句，防止报错
