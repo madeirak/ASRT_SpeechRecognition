@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="97270a1c-359a-443c-b1fc-b72209906b6f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/test-mspeech.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SpeechModel251.py" beforeDir="false" afterPath="$PROJECT_DIR$/SpeechModel251.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LanguageModel.py" beforeDir="false" afterPath="$PROJECT_DIR$/LanguageModel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/general_function/file_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/general_function/file_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/general_function/file_dictt.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/readdata24.py" beforeDir="false" afterPath="$PROJECT_DIR$/readdata24.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testt_mspeech.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_mspeech.py" beforeDir="false" afterPath="$PROJECT_DIR$/train_mspeech.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +15,8 @@
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$file_wav.coverage" NAME="file_wav Coverage Results" MODIFIED="1552638112364" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/general_function" />
     <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$test_mspeech.coverage" NAME="test-mspeech Coverage Results" MODIFIED="1552644730092" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$test.coverage" NAME="test Coverage Results" MODIFIED="1552640645939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$LanguageModel.coverage" NAME="LanguageModel Coverage Results" MODIFIED="1552562991580" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$test.coverage" NAME="test Coverage Results" MODIFIED="1552708162960" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$LanguageModel.coverage" NAME="LanguageModel Coverage Results" MODIFIED="1552719018519" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$file_dict.coverage" NAME="file_dict Coverage Results" MODIFIED="1552640396066" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/general_function" />
     <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$pytest_in_test__mspeech_py.coverage" NAME="pytest in test__mspeech.py Coverage Results" MODIFIED="1552644668901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$testt_mspeech.coverage" NAME="testt_mspeech Coverage Results" MODIFIED="1552638569648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -29,7 +24,53 @@
     <SUITE FILE_PATH="coverage/ASRT_SpeechRecognition$pytest_in_test_mspeech_py.coverage" NAME="pytest in test_mspeech.py Coverage Results" MODIFIED="1552638523156" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LanguageModel.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="249">
+              <caret line="245" column="4" selection-start-line="245" selection-start-column="4" selection-end-line="245" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/test.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="96">
+              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+              <folding>
+                <element signature="e#104#127#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/SpeechModel251.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="174" column="41" lean-forward="true" selection-start-line="174" selection-start-column="41" selection-end-line="174" selection-end-column="41" />
+              <folding>
+                <element signature="e#74#97#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/readdata24.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1740">
+              <caret line="87" column="36" lean-forward="true" selection-start-line="87" selection-start-column="36" selection-end-line="87" selection-end-column="36" />
+              <folding>
+                <element signature="e#48#71#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -40,12 +81,7 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>filename_wavlist_stcmds</find>
-      <find>self.dic_wavlist_stcmds</find>
-      <find>st-cmds</find>
-      <find>list_symbolnum_thchs30</find>
       <find>data_thchs30</find>
-      <find>DataSpeech</find>
       <find>filename</find>
       <find>GetDataNum</find>
       <find>dic_wavlist_stcmds</find>
@@ -70,6 +106,11 @@
       <find>GetData</find>
       <find>data_genetator</find>
       <find>Test Count:</find>
+      <find>ctc_lambda_func</find>
+      <find>odelSpeech</find>
+      <find>self.datapath</find>
+      <find>self.type</find>
+      <find>DataSpeech</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -80,31 +121,30 @@
       <list>
         <option value="$PROJECT_DIR$/general_function/gen_func.py" />
         <option value="$PROJECT_DIR$/general_function/123.py" />
-        <option value="$PROJECT_DIR$/LanguageModel.py" />
         <option value="$PROJECT_DIR$/SpeechModel251_p.py" />
         <option value="$PROJECT_DIR$/general_function/file_wav.py" />
         <option value="$PROJECT_DIR$/test_mspeech.py" />
         <option value="$PROJECT_DIR$/testt_mspeech.py" />
         <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/general_function/fire.py" />
-        <option value="$PROJECT_DIR$/general_function/file_dict.py" />
-        <option value="$PROJECT_DIR$/SpeechModel251.py" />
         <option value="$PROJECT_DIR$/train_mspeech.py" />
         <option value="$PROJECT_DIR$/readdata24.py" />
+        <option value="$PROJECT_DIR$/SpeechModel251.py" />
+        <option value="$PROJECT_DIR$/general_function/file_dict.py" />
+        <option value="$PROJECT_DIR$/LanguageModel.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+    <option name="x" value="-10" />
+    <option name="width" value="980" />
+    <option name="height" value="1040" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -114,13 +154,13 @@
             </path>
             <path>
               <item name="ASRT_SpeechRecognition" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ASRT_SpeechRecognition" type="462c0819:PsiDirectoryNode" />
-              <item name="datalist" type="462c0819:PsiDirectoryNode" />
+              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -142,7 +182,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test-mspeech">
+  <component name="RunManager" selected="Python.LanguageModel">
+    <configuration name="LanguageModel" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ASRT_SpeechRecognition" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/LanguageModel.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="file_dict" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ASRT_SpeechRecognition" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -209,28 +271,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="testt_mspeech" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="ASRT_SpeechRecognition" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/testt_mspeech.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="pytest in test__mspeech.py" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="ASRT_SpeechRecognition" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -249,11 +289,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.LanguageModel" />
+        <item itemvalue="Python.test" />
         <item itemvalue="Python.test-mspeech" />
         <item itemvalue="Python tests.pytest in test__mspeech.py" />
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.file_dict" />
-        <item itemvalue="Python.testt_mspeech" />
       </list>
     </recent_temporary>
   </component>
@@ -279,6 +319,12 @@
       <workItem from="1552613966702" duration="204000" />
       <workItem from="1552614195883" duration="501000" />
       <workItem from="1552614874815" duration="25160000" />
+      <workItem from="1552699581071" duration="8000" />
+      <workItem from="1552703606726" duration="3902000" />
+      <workItem from="1552708714548" duration="720000" />
+      <workItem from="1552710462684" duration="330000" />
+      <workItem from="1552716559673" duration="83000" />
+      <workItem from="1552716647012" duration="2040000" />
     </task>
     <servers />
   </component>
@@ -315,17 +361,18 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66098000" />
+    <option name="totallyTimeSpent" value="73181000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23659517" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17225201" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.08923513" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.24504249" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -448,13 +495,6 @@
     <entry file="file://$PROJECT_DIR$/general_function/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/LanguageModel.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="253" column="62" selection-start-line="253" selection-start-column="62" selection-end-line="253" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/general_function/gen_func.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
@@ -475,48 +515,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/test_mspeech.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="5" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#93#116#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testt_mspeech.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/general_function/fire.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/general_function/file_dictt.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-100">
-          <caret line="7" column="21" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/test_mspeech.py" />
+    <entry file="file://$PROJECT_DIR$/testt_mspeech.py" />
+    <entry file="file://$PROJECT_DIR$/general_function/fire.py" />
+    <entry file="file://$PROJECT_DIR$/general_function/file_dictt.py" />
     <entry file="file://$PROJECT_DIR$/testClient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <folding>
             <element signature="e#94#109#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-          <folding>
-            <element signature="e#104#127#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -543,24 +550,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/general_function/file_dict.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="380">
+          <caret line="19" column="27" lean-forward="true" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/SpeechModel251.py">
+    <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2857">
-          <caret line="170" column="56" lean-forward="true" selection-start-line="170" selection-start-column="56" selection-end-line="170" selection-end-column="56" />
+        <state relative-caret-position="96">
+          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+          <folding>
+            <element signature="e#104#127#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/readdata24.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="247" column="8" lean-forward="true" selection-start-line="247" selection-start-column="8" selection-end-line="247" selection-end-column="8" />
+        <state relative-caret-position="1740">
+          <caret line="87" column="36" lean-forward="true" selection-start-line="87" selection-start-column="36" selection-end-line="87" selection-end-column="36" />
           <folding>
             <element signature="e#48#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LanguageModel.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="249">
+          <caret line="245" column="4" selection-start-line="245" selection-start-column="4" selection-end-line="245" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/SpeechModel251.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="174" column="41" lean-forward="true" selection-start-line="174" selection-start-column="41" selection-end-line="174" selection-end-column="41" />
+          <folding>
+            <element signature="e#74#97#0" expanded="true" />
           </folding>
         </state>
       </provider>

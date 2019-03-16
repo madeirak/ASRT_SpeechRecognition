@@ -3,6 +3,7 @@
 '''
 获取符号字典列表的程序
 '''
+import platform as plat
 
 
 def GetSymbolList(datapath):
@@ -12,10 +13,17 @@ def GetSymbolList(datapath):
 	'''
 
 	datapath_ = datapath.strip('dataset\\')
-	if(datapath_ != ''):
-		if(datapath_[-1]!='/' and datapath_[-1]!='\\'):
-			datapath_ = datapath_ + '/'
-	
+
+	system_type = plat.system()  # 由于不同的系统的文件路径表示不一样，需要进行判断
+	if (system_type == 'Windows'):
+		datapath_+='\\'
+	elif (system_type == 'Linux'):
+		datapath_ += '/'
+	else:
+		print('*[Message] Unknown System\n')
+		datapath_ += '/'
+
+
 	txt_obj=open(datapath_ + 'dict.txt','r',encoding='UTF-8') # 打开文件并读入   dict.txt是pny2hanzi字典
 	txt_text=txt_obj.read()        #read()读取整个文件
 	txt_lines=txt_text.split('\n') # 文本分割    #split返回字符串列表    分隔每个拼音
