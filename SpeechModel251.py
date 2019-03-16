@@ -373,6 +373,7 @@ class ModelSpeech(): # 语音模型类
 		r1 = self.Predict(data_input, input_length) #Predict返回ctc解码后的id列表
 		#t3=time.time()
 		#print('time cost:',t3-t2)
+
 		list_symbol_dic = GetSymbolList(self.datapath) # 获取包含所有pny的列表，pny字典
 		
 		
