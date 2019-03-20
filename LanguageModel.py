@@ -243,7 +243,7 @@ if(__name__=='__main__'):
 	ml.LoadModel()
 	
 	#str_pinyin = ['zhe4','zhen1','shi4','ji2', 'hao3','de5']
-	str_pinyin = ['jin1', 'tian1', 'shi4', 'xing1', 'qi1', 'san1']
+	#str_pinyin = ['jin1', 'tian1', 'shi4', 'xing1', 'qi1', 'san1']
 	#str_pinyin = ['ni3', 'hao3','a1']
 	#str_pinyin = ['wo3','dui4','shi4','mei2','cuo4','ni3','hao3']
 
@@ -256,6 +256,8 @@ if(__name__=='__main__'):
 	#str_pinyin = ['su1', 'an1', 'ni3', 'sui4', 'li4', 'yun4', 'sui2', 'cong2', 'jiao4', 'ming2', 'tao2', 'qi3', 'yu2', 'peng2', 'ya4', 'yang4', 'chao1', 'dao3', 'jiang1', 'li3', 'yuan2', 'kang1', 'zhua1', 'zou3']
 	#str_pinyin = ['da4', 'jia1', 'hao3']
 	#str_pinyin = ['kao3', 'yan2', 'ying1', 'yu3', 'ci2', 'hui4']
+	str = 'bang1 wo3 jiao4 yi2 ge4 chu1 zu1 che1'
+	str_pinyin = str.split(' ')
 	#r = ml.decode(str_pinyin)
 	r=ml.SpeechToText(str_pinyin)
 	print('语音转文字结果：\n',r)

@@ -33,7 +33,11 @@ ms = ModelSpeech(datapath)
 ms.LoadModel(modelpath + 'speech_model251_e_0_step_12000.model')
 
 #ms.TestModel(datapath, str_dataset='test', data_count = 64, out_report = True)
-r = ms.RecognizeSpeech_FromFile('G:\\ASRT_SpeechRecognition\\dataset\\data_thchs30\\test\\D4_753.wav') #abs path
+
+#r = ms.RecognizeSpeech_FromFile('G:\\ASRT_SpeechRecognition\\dataset\\data_thchs30\\train\\A11_0.wav') #abs path
+#r = ms.RecognizeSpeech_FromFile('G:\\ASRT_SpeechRecognition\\dataset\\data_thchs30\\train\\A11_0.wav') #abs path
+r = ms.RecognizeSpeech_FromFile('G:\\yinpin_data\\data_thchs30\\data\\D32_954.wav') #abs path
+
 #r = ms.RecognizeSpeech_FromFile('E:\语音数据集\ST-CMDS-20170001_1-OS\\20170001P00241I0053.wav')
 #r = ms.RecognizeSpeech_FromFile('E:\\语音数据集\\ST-CMDS-20170001_1-OS\\20170001P00020I0087.wav')
 #r = ms.RecognizeSpeech_FromFile('E:\\语音数据集\\wav\\train\\A11\\A11_167.WAV')
