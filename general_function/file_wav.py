@@ -119,7 +119,7 @@ def GetFrequencyFeature3(wavsignal, fs):
 
 
 											# len(wavsignal)/(fs/1000)是读取的wav的总毫秒数，从0开始记，所以先减一帧
-	range0_end = int(len(wavsignal[0])/fs*1000 - time_window) // 10 + 1# 计算循环终止的位置，也就是最终生成的窗数
+	range0_end = int(len(wavsignal[0])/fs*1000 - time_window) // 10 # 计算循环终止的位置，也就是最终生成的窗数
 	data_input = np.zeros((range0_end, 200), dtype = np.float) # 用于存放最终的频率特征数据
 	data_line = np.zeros((1, 400), dtype = np.float)
 	
@@ -136,8 +136,7 @@ def GetFrequencyFeature3(wavsignal, fs):
 		
 		data_input[i]=data_line[0:200] # 设置为400除以2的值（即200）是取一半数据，因为是对称的
 
-	#print(data_input.shape)
-	data_input = np.log(data_input + 1)
+	print(data_input.shape)
 
 	return data_input#shape=(帧数，200)
 	
