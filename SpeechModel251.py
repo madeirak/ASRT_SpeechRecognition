@@ -15,6 +15,7 @@ from general_function.gen_func import *
 import keras as kr
 import numpy as np
 import random
+import tensorflow as tf
 
 from keras.models import Sequential, Model
 from keras.layers import Dense, Dropout, Input, Reshape, BatchNormalization # , Flatten
@@ -38,7 +39,7 @@ class ModelSpeech(): # 语音模型类
 		self.MS_OUTPUT_SIZE = MS_OUTPUT_SIZE # 神经网络最终输出的每一个字符向量维度的大小
 		#self.BATCH_SIZE = BATCH_SIZE # 一次训练的batch
 		self.label_max_string_length = 64
-		self.AUDIO_LENGTH = 1600
+		self.AUDIO_LENGTH = 200
 		self.AUDIO_FEATURE_LENGTH = 200
 		self._model, self.base_model = self.CreateModel() #return loss ，y_pred
 		
@@ -157,7 +158,7 @@ class ModelSpeech(): # 语音模型类
 	
 	
 	
-	def TrainModel(self, datapath, epoch = 2, save_step = 1000, batch_size = 32, filename = abspath + 'model_speech/m' + ModelName + '/speech_model'+ModelName):
+	def TrainModel(self, datapath, epoch = 2, save_step = 1000, batch_size = 8, filename = abspath + 'model_speech/m' + ModelName + '/speech_model'+ModelName):
 		'''
 		训练模型
 		参数：
@@ -165,7 +166,11 @@ class ModelSpeech(): # 语音模型类
 			epoch: 迭代轮数
 			save_step: 每多少步保存一次模型
 			filename: 默认保存文件名，不含文件后缀名
+
 		'''
+
+
+
 		data=DataSpeech(datapath, 'train')
 		
 		num_data = data.GetDataNum() # 获取数据的数量  返回wav文件数
@@ -212,7 +217,7 @@ class ModelSpeech(): # 语音模型类
 		f.write(filename+comment)
 		f.close()
 
-	def TestModel(self, datapath='', str_dataset='dev', data_count = 32, out_report = False, show_ratio = True, io_step_print = 10, io_step_file = 10):
+	def TestModel(self, datapath='', str_dataset='dev', data_count = 16, out_report = False, show_ratio = True, io_step_print = 10, io_step_file = 10):
 		'''
 		测试检验模型效果
 

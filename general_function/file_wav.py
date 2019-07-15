@@ -8,9 +8,9 @@ import matplotlib.pyplot as plt
 import math
 import time
 
-from python_speech_features import mfcc
-from python_speech_features import delta
-from python_speech_features import logfbank
+#from python_speech_features import mfcc
+#from python_speech_features import delta
+#from python_speech_features import logfbank
 
 from scipy.fftpack import fft
 
@@ -31,7 +31,7 @@ def read_wav_data(filename):
 	wave_data = wave_data.T # 将矩阵转置
 	#wave_data = wave_data 
 	return wave_data, framerate  
-
+'''
 def GetMfccFeature(wavsignal, fs):
 	# 获取输入特征
 	feat_mfcc=mfcc(wavsignal[0],fs)
@@ -40,7 +40,7 @@ def GetMfccFeature(wavsignal, fs):
 	# 返回值分别是mfcc特征向量的矩阵及其一阶差分和二阶差分矩阵
 	wav_feature = np.column_stack((feat_mfcc, feat_mfcc_d, feat_mfcc_dd))
 	return wav_feature
-
+'''
 def GetFrequencyFeature(wavsignal, fs):
 	# wav波形 加时间窗以及时移10ms
 	time_window = 25 # 单位ms

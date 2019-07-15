@@ -186,7 +186,7 @@ class DataSpeech():
 		data_label = np.array(feat_out)  #一句pny的所有pny_id的数组
 		return data_input, data_label
 	
-	def data_genetator(self, batch_size=32, audio_length = 1600):
+	def data_genetator(self, batch_size=32, audio_length = 200):
 		'''
 		数据生成器函数，用于Keras的generator_fit训练
 		batch_size: 一次产生的数据量
